@@ -32,16 +32,16 @@ object ApiBuilder {
     }
 
     fun getCharacterList(callback: ApiCallback.RestCallback<ApiResponse>) {
-        val time = "thesoer"
-        val ts = time
+        val time = Date().time
+        val ts = time.toString()
         val digest = md5("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
         val key = PUBLIC_API_KEY
-        service.getCharacterList(ts, key, digest)
+        service.getCharacterList(ts, key, digest, "10" , "0")
             .enqueue(ApiCallback(callback))
 
     }
 
-    fun md5(s: String): String {
+    private fun md5(s: String): String {
         val md5 = "MD5"
         try {
             // Create MD5 Hash

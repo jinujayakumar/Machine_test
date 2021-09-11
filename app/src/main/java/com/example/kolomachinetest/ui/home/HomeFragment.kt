@@ -9,9 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.api.ApiBuilder
 import com.example.kolomachinetest.api.ApiCallback
 import com.example.kolomachinetest.data.ApiResponse
+import com.example.kolomachinetest.data.ApiResult
 import com.example.kolomachinetest.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,10 +22,10 @@ class HomeFragment : Fragment() {
     private val TAG = "HomeFragment"
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var mRecyclerView: RecyclerView
+    private var list: ArrayList<ApiResult> = ArrayList()
+    private val mCharacterListAdapter = CharacterListAdapter(list)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,14 +42,17 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
+        mRecyclerView = binding.recyclerView
+        mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
+        mRecyclerView.adapter = mCharacterListAdapter
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ApiBuilder.getCharacterList(object : ApiCallback.RestCallback<ApiResponse> {
-            override fun onSuccess(result: ApiResponse?) {
-                TODO("Not yet implemented")
+            override fun onSuccess(result: ApiResponse) {
+                mCharacterListAdapter.setResult(result.data.results)
             }
 
             override fun onFailure(message: String?) {

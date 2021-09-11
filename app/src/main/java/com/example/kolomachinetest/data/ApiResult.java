@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Result implements Parcelable {
+public class ApiResult implements Parcelable {
 
     @SerializedName("id")
     public int id;
@@ -164,14 +164,14 @@ public class Result implements Parcelable {
         this.series = source.readParcelable(Series.class.getClassLoader());
         this.stories = source.readParcelable(Stories.class.getClassLoader());
         this.events = source.readParcelable(Events.class.getClassLoader());
-        this.urls = new ArrayList<Url>();
+        this.urls = new ArrayList<>();
         source.readList(this.urls, Url.class.getClassLoader());
     }
 
-    public Result() {
+    public ApiResult() {
     }
 
-    protected Result(Parcel in) {
+    protected ApiResult(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
@@ -187,15 +187,15 @@ public class Result implements Parcelable {
         in.readList(this.urls, Url.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+    public static final Parcelable.Creator<ApiResult> CREATOR = new Parcelable.Creator<ApiResult>() {
         @Override
-        public Result createFromParcel(Parcel source) {
-            return new Result(source);
+        public ApiResult createFromParcel(Parcel source) {
+            return new ApiResult(source);
         }
 
         @Override
-        public Result[] newArray(int size) {
-            return new Result[size];
+        public ApiResult[] newArray(int size) {
+            return new ApiResult[size];
         }
     };
 }

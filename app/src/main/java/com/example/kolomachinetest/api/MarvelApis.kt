@@ -10,8 +10,10 @@ interface MarvelApis {
     @GET("characters")
     fun getCharacterList(
         @Query("ts") ts: String,
-        @Query("apiKey") apiKey: String,
+        @Query("apikey") apiKey: String,
         @Query("hash") hash: String,
+        @Query("limit") limit: String,
+        @Query("offset") offset: String,
     ): Call<ApiResponse>
 
 }

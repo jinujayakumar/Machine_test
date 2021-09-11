@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Data implements Parcelable {
 
@@ -23,7 +22,7 @@ public class Data implements Parcelable {
     public int count;
 
     @SerializedName("results")
-    public List<Result> results;
+    public ArrayList<ApiResult> results;
 
     public int getOffset() {
         return offset;
@@ -57,11 +56,11 @@ public class Data implements Parcelable {
         this.count = count;
     }
 
-    public List<Result> getResults() {
+    public ArrayList<ApiResult> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(ArrayList<ApiResult> results) {
         this.results = results;
     }
 
@@ -84,8 +83,8 @@ public class Data implements Parcelable {
         this.limit = source.readInt();
         this.total = source.readInt();
         this.count = source.readInt();
-        this.results = new ArrayList<Result>();
-        source.readList(this.results, Result.class.getClassLoader());
+        this.results = new ArrayList<>();
+        source.readList(this.results, ApiResult.class.getClassLoader());
     }
 
     public Data() {
@@ -96,8 +95,8 @@ public class Data implements Parcelable {
         this.limit = in.readInt();
         this.total = in.readInt();
         this.count = in.readInt();
-        this.results = new ArrayList<Result>();
-        in.readList(this.results, Result.class.getClassLoader());
+        this.results = new ArrayList<>();
+        in.readList(this.results, ApiResult.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
