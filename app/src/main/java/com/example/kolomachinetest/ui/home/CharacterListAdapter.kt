@@ -7,8 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.data.ApiResult
+import com.example.kolomachinetest.uils.Utils
 
 class CharacterListAdapter(private val list: ArrayList<ApiResult>) :
     RecyclerView.Adapter<CharacterListAdapter.CharacterVH>() {
@@ -25,10 +27,13 @@ class CharacterListAdapter(private val list: ArrayList<ApiResult>) :
     }
 
     override fun onBindViewHolder(holder: CharacterVH, position: Int) {
-        holder.textView.text = list[position].name
+        val apiResult = list[position]
+        holder.textView.text = apiResult.name
+        val url = "${apiResult.thumbnail.path}.${apiResult.thumbnail.extension}"
         Glide.with(holder.textView.context)
-            .load(list[position].thumbnail.path + list[position].thumbnail.extension)
-            .centerCrop()
+            .load(url)
+            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+            .listener(Utils.loadPallet(holder.itemView, holder.imageView.context))
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.imageView);
     }

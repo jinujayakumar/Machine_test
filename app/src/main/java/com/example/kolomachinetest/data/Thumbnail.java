@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Thumbnail implements Parcelable {
 
-    @SerializedName("available")
+    @SerializedName("path")
     public String path;
 
-    @SerializedName("collectionURI")
+    @SerializedName("extension")
     public String extension;
 
     public String getPath() {

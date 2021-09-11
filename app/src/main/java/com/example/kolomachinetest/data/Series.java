@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Series implements Parcelable {
-    @SerializedName("available")
 
+    @SerializedName("available")
     public int available;
     @SerializedName("collectionURI")
 

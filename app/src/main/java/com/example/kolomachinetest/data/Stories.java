@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Stories implements Parcelable {
+
     @SerializedName("available")
     public int available;
 
