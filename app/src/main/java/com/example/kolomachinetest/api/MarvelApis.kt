@@ -7,11 +7,11 @@ import retrofit2.http.Query
 
 interface MarvelApis {
 
-    @GET("/v1/public/characters")
+    @GET("characters")
     fun getCharacterList(
+        @Query("ts") ts: String,
         @Query("apiKey") apiKey: String,
         @Query("hash") hash: String,
-        @Query("ts") ts: String
     ): Call<ApiResponse>
 
 }
