@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ApiResult implements Parcelable {
+public class Character implements Parcelable {
 
     @SerializedName("id")
     public int id;
@@ -168,10 +168,10 @@ public class ApiResult implements Parcelable {
         source.readList(this.urls, Url.class.getClassLoader());
     }
 
-    public ApiResult() {
+    public Character() {
     }
 
-    protected ApiResult(Parcel in) {
+    protected Character(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
@@ -187,15 +187,15 @@ public class ApiResult implements Parcelable {
         in.readList(this.urls, Url.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<ApiResult> CREATOR = new Parcelable.Creator<ApiResult>() {
+    public static final Parcelable.Creator<Character> CREATOR = new Parcelable.Creator<Character>() {
         @Override
-        public ApiResult createFromParcel(Parcel source) {
-            return new ApiResult(source);
+        public Character createFromParcel(Parcel source) {
+            return new Character(source);
         }
 
         @Override
-        public ApiResult[] newArray(int size) {
-            return new ApiResult[size];
+        public Character[] newArray(int size) {
+            return new Character[size];
         }
     };
 }

@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kolomachinetest.api.ApiBuilder
-import com.example.kolomachinetest.api.ApiCallback
+import com.example.kolomachinetest.api.RemoteApiBuilder
+import com.example.kolomachinetest.api.CallBack
 import com.example.kolomachinetest.data.ApiResponse
-import com.example.kolomachinetest.data.ApiResult
+import com.example.kolomachinetest.data.Character
 import com.example.kolomachinetest.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var mRecyclerView: RecyclerView
-    private var list: ArrayList<ApiResult> = ArrayList()
+    private var list: ArrayList<Character> = ArrayList()
     private val mCharacterListAdapter = CharacterListAdapter(list)
 
     override fun onCreateView(
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ApiBuilder.getCharacterList(object : ApiCallback.RestCallback<ApiResponse> {
+        RemoteApiBuilder.getCharacterList(object : CallBack<ApiResponse> {
             override fun onSuccess(result: ApiResponse) {
                 mCharacterListAdapter.setResult(result.data.results)
             }

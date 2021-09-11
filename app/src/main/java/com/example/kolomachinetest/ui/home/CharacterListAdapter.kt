@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.data.ApiResult
+import com.example.kolomachinetest.data.Character
 import com.example.kolomachinetest.uils.Utils
 
-class CharacterListAdapter(private val list: ArrayList<ApiResult>) :
+class CharacterListAdapter(private val list: ArrayList<Character>, ) :
     RecyclerView.Adapter<CharacterListAdapter.CharacterVH>() {
 
 
@@ -35,12 +35,12 @@ class CharacterListAdapter(private val list: ArrayList<ApiResult>) :
             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             .listener(Utils.loadPallet(holder.itemView, holder.imageView.context))
             .placeholder(R.drawable.ic_launcher_background)
-            .into(holder.imageView);
+            .into(holder.imageView)
     }
 
     override fun getItemCount() = list.size
 
-    fun setResult(results: ArrayList<ApiResult>) {
+    fun setResult(results: ArrayList<Character>) {
         val size = results.size
         val oldSize = list.size
         list.addAll(results)

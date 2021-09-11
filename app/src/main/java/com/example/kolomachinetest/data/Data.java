@@ -22,7 +22,7 @@ public class Data implements Parcelable {
     public int count;
 
     @SerializedName("results")
-    public ArrayList<ApiResult> results;
+    public ArrayList<Character> results;
 
     public int getOffset() {
         return offset;
@@ -56,11 +56,11 @@ public class Data implements Parcelable {
         this.count = count;
     }
 
-    public ArrayList<ApiResult> getResults() {
+    public ArrayList<Character> getResults() {
         return results;
     }
 
-    public void setResults(ArrayList<ApiResult> results) {
+    public void setResults(ArrayList<Character> results) {
         this.results = results;
     }
 
@@ -84,7 +84,7 @@ public class Data implements Parcelable {
         this.total = source.readInt();
         this.count = source.readInt();
         this.results = new ArrayList<>();
-        source.readList(this.results, ApiResult.class.getClassLoader());
+        source.readList(this.results, Character.class.getClassLoader());
     }
 
     public Data() {
@@ -96,7 +96,7 @@ public class Data implements Parcelable {
         this.total = in.readInt();
         this.count = in.readInt();
         this.results = new ArrayList<>();
-        in.readList(this.results, ApiResult.class.getClassLoader());
+        in.readList(this.results, Character.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
