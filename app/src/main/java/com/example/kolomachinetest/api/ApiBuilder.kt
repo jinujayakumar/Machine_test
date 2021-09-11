@@ -36,7 +36,7 @@ object ApiBuilder {
         val ts = time
         val digest = md5("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
         val key = PUBLIC_API_KEY
-        service.getCharacterList(ts, key, digest, "10", "0")
+        service.getCharacterList(ts, key, digest)
             .enqueue(ApiCallback(callback))
 
     }
