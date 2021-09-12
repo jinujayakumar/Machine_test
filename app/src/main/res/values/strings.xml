@@ -11,4 +11,33 @@
     <string name="comic_format_type">Comic Format type</string>
     <string name="variant">Variant</string>
     <string name="descriptor">Descriptor</string>
+    <string name="apply">Apply</string>
+
+    <string-array name="format">
+        <item>Comic</item>
+        <item>Magazine</item>
+        <item>Trade paperback</item>
+        <item>Hardcover</item>
+        <item>Digest</item>
+        <item>Graphic novel</item>
+        <item>Digital comic</item>
+        <item>Infinite comic</item>
+    </string-array>
+
+    <string-array name="formatType">
+        <item>comic</item>
+        <item>collection</item>
+    </string-array>
+
+    <string-array name="noVariants">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+
+    <string-array name="dateDescriptor">
+        <item>lastWeek</item>
+        <item>thisWeek</item>
+        <item>nextWeek</item>
+        <item>thisMonth</item>
+    </string-array>
 </resources>

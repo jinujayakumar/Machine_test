@@ -1,23 +1,35 @@
 package com.example.kolomachinetest.ui.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
+import com.example.kolomachinetest.api.CallBack
+import com.example.kolomachinetest.api.PaginationCallback
+import com.example.kolomachinetest.api.RemoteApiBuilder
+import com.example.kolomachinetest.data.ApiResponse
+import com.example.kolomachinetest.data.Result
+import com.example.kolomachinetest.ui.filter.FilterAdapter
 
-class SearchResultFragment : Fragment() {
+class SearchResultFragment : Fragment(), PaginationCallback, CallBack<ApiResponse> {
 
-    private lateinit var mTextView: TextView
-
+    private val TAG = "SearchResultFragment"
+    private lateinit var name: String
+    private val list = ArrayList<Result>()
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mFilterAdapter: FilterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true);
+        name = arguments?.getString("key").toString()
     }
 
     override fun onCreateView(
@@ -30,8 +42,11 @@ class SearchResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mTextView = view.findViewById(R.id.textView)
-        mTextView.text = arguments?.getString("key")
+        mRecyclerView = view.findViewById(R.id.recyclerView)
+        mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
+        mFilterAdapter = FilterAdapter(list, this)
+        mRecyclerView.adapter = mFilterAdapter
+        onLoadMore(0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -41,6 +56,24 @@ class SearchResultFragment : Fragment() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onLoadMore(position: Int) {
+        RemoteApiBuilder.searchCharacterList(
+            position, name,
+            this
+        )
+    }
+
+    override fun onSuccess(result: ApiResponse) {
+        val results = result.data.results
+        val showLoadingScreen = result.data.total != result.data.count + result.data.offset
+        mFilterAdapter.setResult(results, showLoadingScreen)
+    }
+
+    override fun onFailure(result: String?) {
+        mFilterAdapter.resetLastItem()
+        Log.e(TAG, "onFailure: $result")
     }
 
 }

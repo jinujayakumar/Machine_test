@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.PaginationCallback
+import com.example.kolomachinetest.data.Result
 import com.example.kolomachinetest.ui.adapter.PaginationAdapter.PaginationViewHolder
 import java.util.*
 

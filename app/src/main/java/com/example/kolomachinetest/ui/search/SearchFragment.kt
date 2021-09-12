@@ -41,7 +41,8 @@ class SearchFragment : Fragment(), SearchAdapter.SearchCallBack {
         list = RemoteApiBuilder.searchList() ?: list
         mRecyclerView.adapter = SearchAdapter(list, this)
         mEditText.imeOptions = EditorInfo.IME_ACTION_SEARCH
-        mEditText.setOnEditorActionListener { v, actionId, event ->
+        mEditText.requestFocus()
+        mEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search(mEditText.text.toString(), true)
                 return@setOnEditorActionListener true
@@ -64,7 +65,7 @@ class SearchFragment : Fragment(), SearchAdapter.SearchCallBack {
     }
 
     private fun search(key: String?, insert: Boolean) {
-        if (key != null) {
+        if (key != null && key.isNotEmpty()) {
             val args = Bundle()
             args.putString("key", key)
             if (insert) {
