@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.home
+package com.example.kolomachinetest.ui.character
 
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +15,7 @@ import com.example.kolomachinetest.data.ApiResponse
 import com.example.kolomachinetest.data.Result
 import com.example.kolomachinetest.databinding.FragmentCharactersBinding
 import android.view.*
+import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
 
 
@@ -62,7 +63,7 @@ class CharacterFragment : Fragment(), PaginationCallback {
     }
 
     override fun onLoadMore(position: Int) {
-        RemoteApiBuilder.getCharacterList(position, object : CallBack<ApiResponse> {
+        RemoteApiBuilder.fetchCharacterList(position, object : CallBack<ApiResponse> {
             override fun onSuccess(result: ApiResponse) {
                 val results = result.data.results
                 val showLoadingScreen = result.data.total != result.data.count + result.data.offset
@@ -87,7 +88,7 @@ class CharacterFragment : Fragment(), PaginationCallback {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_search) {
-            TODO()
+            findNavController().navigate(R.id.action_navigation_home_to_search_fragment)
             return true
         }
         return false

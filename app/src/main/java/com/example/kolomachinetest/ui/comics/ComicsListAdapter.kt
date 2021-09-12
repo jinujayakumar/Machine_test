@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.dashboard
+package com.example.kolomachinetest.ui.comics
 
 import android.view.LayoutInflater
 import android.view.View

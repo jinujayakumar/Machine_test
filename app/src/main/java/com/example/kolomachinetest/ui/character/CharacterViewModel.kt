@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.home
+package com.example.kolomachinetest.ui.character
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

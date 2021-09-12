@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.kolomachinetest.ui.home.CharacterFragment"
+        android:name="com.example.kolomachinetest.ui.character.CharacterFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_characters" >
         <action
-            android:id="@+id/action_navigation_home_to_blankFragment"
-            app:destination="@id/blankFragment" />
+            android:id="@+id/action_navigation_home_to_search_fragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.kolomachinetest.ui.dashboard.ComicsFragment"
+        android:name="com.example.kolomachinetest.ui.comics.ComicsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_comics" >
         <action
@@ -25,13 +25,39 @@
             app:destination="@id/filterFragment" />
     </fragment>
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="com.example.kolomachinetest.BlankFragment"
-        android:label="fragment_blank"
-        tools:layout="@layout/fragment_blank" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.kolomachinetest.ui.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.kolomachinetest.FilterFragment"
-        android:label="fragment_filter"
-        tools:layout="@layout/fragment_filter" />
+        android:name="com.example.kolomachinetest.ui.filter.FilterFragment"
+        android:label="Filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_filterResultFragment"
+            app:destination="@id/filterResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.example.kolomachinetest.ui.search.SearchResultFragment"
+        android:label="Lists"
+        tools:layout="@layout/fragment_search_result" >
+        <action
+            android:id="@+id/action_searchResultFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterResultFragment"
+        android:name="com.example.kolomachinetest.ui.filter.FilterResultFragment"
+        android:label="result"
+        tools:layout="@layout/fragment_filter_result" >
+        <action
+            android:id="@+id/action_filterResultFragment_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.dashboard
+package com.example.kolomachinetest.ui.comics
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,8 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
@@ -61,7 +63,7 @@ class ComicsFragment : Fragment(), PaginationCallback {
     }
 
     override fun onLoadMore(position: Int) {
-        RemoteApiBuilder.getComicsList(position, object : CallBack<ApiResponse> {
+        RemoteApiBuilder.fetchComicsList(position, object : CallBack<ApiResponse> {
             override fun onSuccess(result: ApiResponse) {
                 val results = result.data.results
                 val showLoadingScreen = result.data.total != result.data.count + result.data.offset
@@ -86,7 +88,7 @@ class ComicsFragment : Fragment(), PaginationCallback {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_filter) {
-            TODO()
+            findNavController().navigate(R.id.action_navigation_dashboard_to_filterFragment)
             return true
         }
         return false

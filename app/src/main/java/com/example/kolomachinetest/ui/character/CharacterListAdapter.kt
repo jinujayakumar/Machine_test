@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.home
+package com.example.kolomachinetest.ui.character
 
 import android.view.LayoutInflater
 import android.view.View
