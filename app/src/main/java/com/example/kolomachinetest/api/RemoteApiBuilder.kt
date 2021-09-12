@@ -38,4 +38,13 @@ object RemoteApiBuilder {
         return service.getCharacterList(ts, key, digest, "50", index.toString())
             .enqueue(ApiCallback(callback))
     }
+
+    fun getComicsList(index: Int, callback: CallBack<ApiResponse>) {
+        val time = Date().time
+        val ts = time.toString()
+        val digest = Utils.getMD5Hash("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
+        val key = PUBLIC_API_KEY
+        return service.getComics(ts, key, digest, "50", index.toString())
+            .enqueue(ApiCallback(callback))
+    }
 }

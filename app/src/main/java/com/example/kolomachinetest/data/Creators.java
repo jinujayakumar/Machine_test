@@ -7,7 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Series implements Parcelable {
+public class Creators implements Parcelable {
+
 
     @SerializedName("available")
     public int available;
@@ -20,12 +21,6 @@ public class Series implements Parcelable {
 
     @SerializedName("returned")
     public int returned;
-
-    @SerializedName("resourceURI")
-    public String resourceURI;
-
-    @SerializedName("name")
-    public String name;
 
     public int getAvailable() {
         return available;
@@ -59,22 +54,6 @@ public class Series implements Parcelable {
         this.returned = returned;
     }
 
-    public String getResourceURI() {
-        return resourceURI;
-    }
-
-    public void setResourceURI(String resourceURI) {
-        this.resourceURI = resourceURI;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -95,25 +74,25 @@ public class Series implements Parcelable {
         this.returned = source.readInt();
     }
 
-    public Series() {
+    public Creators() {
     }
 
-    protected Series(Parcel in) {
+    protected Creators(Parcel in) {
         this.available = in.readInt();
         this.collectionURI = in.readString();
         this.items = in.createTypedArrayList(Item.CREATOR);
         this.returned = in.readInt();
     }
 
-    public static final Parcelable.Creator<Series> CREATOR = new Parcelable.Creator<Series>() {
+    public static final Parcelable.Creator<Creators> CREATOR = new Parcelable.Creator<Creators>() {
         @Override
-        public Series createFromParcel(Parcel source) {
-            return new Series(source);
+        public Creators createFromParcel(Parcel source) {
+            return new Creators(source);
         }
 
         @Override
-        public Series[] newArray(int size) {
-            return new Series[size];
+        public Creators[] newArray(int size) {
+            return new Creators[size];
         }
     };
 }

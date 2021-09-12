@@ -7,19 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.kolomachinetest.ui.home.HomeFragment"
+        android:name="com.example.kolomachinetest.ui.home.CharacterFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_characters" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.kolomachinetest.ui.dashboard.DashboardFragment"
+        android:name="com.example.kolomachinetest.ui.dashboard.ComicsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.kolomachinetest.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_comics" />
 </navigation>

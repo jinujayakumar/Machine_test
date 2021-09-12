@@ -3,5 +3,6 @@
     <string name="title_home">Characters</string>
     <string name="title_dashboard">Comics</string>
     <string name="search">Search</string>
+    <string name="filter">Filter</string>
     <string name="title_notifications">Notifications</string>
 </resources>

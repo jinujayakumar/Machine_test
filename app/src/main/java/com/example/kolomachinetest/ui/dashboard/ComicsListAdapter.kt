@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.ui.home
+package com.example.kolomachinetest.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,29 +9,32 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.PaginationCallback
+import com.example.kolomachinetest.data.Price
 import com.example.kolomachinetest.data.Result
 import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.uils.Utils
 
-class CharacterListAdapter(
+class ComicsListAdapter(
     list: ArrayList<Result>,
     paginationCallback: PaginationCallback
 ) :
-    PaginationAdapter<CharacterListAdapter.CharacterVH, Result>(list, paginationCallback) {
+    PaginationAdapter<ComicsListAdapter.ComicsViewHolder, Result>(list, paginationCallback) {
 
 
-    class CharacterVH(view: View) : PaginationAdapter.PaginationViewHolder(view) {
+    class ComicsViewHolder(view: View) : PaginationAdapter.PaginationViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.textView)
+        val price: TextView = view.findViewById(R.id.price)
         val imageView: ImageView = view.findViewById(R.id.imageView)
     }
 
-    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): CharacterVH {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.character_list, parent, false)
-        return CharacterVH(view)
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): ComicsViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.comics_list, parent, false)
+        return ComicsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CharacterVH, pos: Int, model: Result) {
-        holder.textView.text = model.name
+    override fun onBindViewHolder(holder: ComicsViewHolder, pos: Int, model: Result) {
+        holder.textView.text = model.title
+        holder.price.text = getPrice(model.prices)
         val url = "${model.thumbnail.path}.${model.thumbnail.extension}"
         Glide.with(holder.textView.context)
             .load(url)
@@ -40,4 +43,14 @@ class CharacterListAdapter(
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.imageView)
     }
+
+    private fun getPrice(prices: List<Price>): CharSequence? {
+        var price = ""
+        if (prices.isNotEmpty() && prices[0] != null) {
+            price = "${prices[0].price}";
+        }
+        return price
+    }
+
+
 }

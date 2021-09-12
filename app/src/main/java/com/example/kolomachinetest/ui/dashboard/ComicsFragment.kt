@@ -1,32 +1,31 @@
-package com.example.kolomachinetest.ui.home
+package com.example.kolomachinetest.ui.dashboard
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.CallBack
 import com.example.kolomachinetest.api.PaginationCallback
 import com.example.kolomachinetest.api.RemoteApiBuilder
 import com.example.kolomachinetest.data.ApiResponse
-import com.example.kolomachinetest.data.Character
-import com.example.kolomachinetest.databinding.FragmentHomeBinding
-import android.view.*
-import com.example.kolomachinetest.R
+import com.example.kolomachinetest.data.Result
+import com.example.kolomachinetest.databinding.FragmentComicsBinding
 
+class ComicsFragment : Fragment(), PaginationCallback {
 
-class HomeFragment : Fragment(), PaginationCallback {
-
-    private val TAG = "HomeFragment"
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private val TAG = "ComicsFragment"
+    private lateinit var mComicsViewModel: ComicsViewModel
+    private var _binding: FragmentComicsBinding? = null
     private val binding get() = _binding!!
     private lateinit var mRecyclerView: RecyclerView
-    private var list: ArrayList<Character> = ArrayList()
-    private val mCharacterListAdapter = CharacterListAdapter(list, this)
+    private var list: ArrayList<Result> = ArrayList()
+    private val mComicsListAdapter = ComicsListAdapter(list, this)
     private lateinit var mProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +38,15 @@ class HomeFragment : Fragment(), PaginationCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        mComicsViewModel =
+            ViewModelProvider(this).get(ComicsViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentComicsBinding.inflate(inflater, container, false)
         val root: View = binding.root
         mRecyclerView = binding.recyclerView
         mProgressBar = binding.progressBar
         mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
-        mRecyclerView.adapter = mCharacterListAdapter
+        mRecyclerView.adapter = mComicsListAdapter
         return root
     }
 
@@ -62,17 +61,17 @@ class HomeFragment : Fragment(), PaginationCallback {
     }
 
     override fun onLoadMore(position: Int) {
-        RemoteApiBuilder.getCharacterList(position, object : CallBack<ApiResponse> {
+        RemoteApiBuilder.getComicsList(position, object : CallBack<ApiResponse> {
             override fun onSuccess(result: ApiResponse) {
                 val results = result.data.results
                 val showLoadingScreen = result.data.total != result.data.count + result.data.offset
-                mCharacterListAdapter.setResult(results, showLoadingScreen)
+                mComicsListAdapter.setResult(results, showLoadingScreen)
                 mProgressBar.visibility = View.INVISIBLE
             }
 
             override fun onFailure(message: String?) {
                 mProgressBar.visibility = View.INVISIBLE
-                mCharacterListAdapter.resetLastItem()
+                mComicsListAdapter.resetLastItem()
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "onFailure: $message")
             }
@@ -82,11 +81,11 @@ class HomeFragment : Fragment(), PaginationCallback {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-        inflater.inflate(R.menu.toolbar_items_character, menu)
+        inflater.inflate(R.menu.comics_tool_bar_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_search) {
+        if (item.itemId == R.id.menu_filter) {
             TODO()
             return true
         }
