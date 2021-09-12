@@ -9,11 +9,29 @@
         android:id="@+id/navigation_home"
         android:name="com.example.kolomachinetest.ui.home.CharacterFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_characters" />
+        tools:layout="@layout/fragment_characters" >
+        <action
+            android:id="@+id/action_navigation_home_to_blankFragment"
+            app:destination="@id/blankFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.kolomachinetest.ui.dashboard.ComicsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_comics" />
+        tools:layout="@layout/fragment_comics" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.example.kolomachinetest.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.kolomachinetest.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" />
 </navigation>
