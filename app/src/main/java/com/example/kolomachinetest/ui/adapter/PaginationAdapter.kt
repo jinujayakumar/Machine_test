@@ -15,6 +15,7 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
 ) : RecyclerView.Adapter<T>() {
 
     private var mLastItemPost = 0
+    private var mShowLoadingScreen = true
 
     companion object {
         private const val LIST_ITEM = 1
@@ -51,11 +52,15 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
     }
 
     final override fun getItemCount(): Int {
-        return mListModel.size + 1
+        return if (mShowLoadingScreen && mListModel.isNotEmpty()) {
+            mListModel.size + 1
+        } else {
+            mListModel.size
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == mListModel.size) {
+        return if (position == mListModel.size && mListModel.isNotEmpty()) {
             LOADING_ITEM
         } else {
             LIST_ITEM
@@ -66,7 +71,8 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
         mLastItemPost = 0
     }
 
-    fun setResult(results: ArrayList<M>) {
+    fun setResult(results: ArrayList<M>, showLoadingScreen: Boolean) {
+        mShowLoadingScreen = showLoadingScreen;
         val size = results.size
         val oldSize = mListModel.size
         mListModel.addAll(results)

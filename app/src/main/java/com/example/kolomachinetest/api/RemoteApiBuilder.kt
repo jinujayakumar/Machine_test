@@ -1,12 +1,8 @@
 package com.example.kolomachinetest.api
 
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import com.example.kolomachinetest.data.ApiResponse
 import com.example.kolomachinetest.uils.Utils
 import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -34,22 +30,12 @@ object RemoteApiBuilder {
         service = retrofit.create(MarvelApis::class.java)
     }
 
-    fun getCharacterList(callback: CallBack<ApiResponse>) {
-        val time = Date().time
-        val ts = time.toString()
-        val digest = Utils.getMD5Hash("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
-        val key = PUBLIC_API_KEY
-        service.getCharacterList(ts, key, digest, "20", "0")
-            .enqueue(ApiCallback(callback))
-
-    }
-
     fun getCharacterList(index: Int, callback: CallBack<ApiResponse>) {
         val time = Date().time
         val ts = time.toString()
         val digest = Utils.getMD5Hash("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
         val key = PUBLIC_API_KEY
-        return service.getCharacterList(ts, key, digest, "20", index.toString())
+        return service.getCharacterList(ts, key, digest, "50", index.toString())
             .enqueue(ApiCallback(callback))
     }
 }
