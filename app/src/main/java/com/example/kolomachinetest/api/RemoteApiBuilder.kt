@@ -44,26 +44,12 @@ object RemoteApiBuilder {
 
     }
 
-    fun getCharacterList(index : Int): Response<ApiResponse> {
+    fun getCharacterList(index: Int, callback: CallBack<ApiResponse>) {
         val time = Date().time
         val ts = time.toString()
         val digest = Utils.getMD5Hash("${time}${PRIVATE_API_KEY}${PUBLIC_API_KEY}")
         val key = PUBLIC_API_KEY
-        return service.getCharacterList(ts, key, digest, "20", index.toString()).execute()
-
-    }
-
-
-    private class CharacterPagingSource(
-        private val service: MarvelApis
-    ) : PagingSource<Int, MarvelApis>() {
-        override fun getRefreshKey(state: PagingState<Int, MarvelApis>): Int? {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MarvelApis> {
-            TODO("Not yet implemented")
-        }
-
+        return service.getCharacterList(ts, key, digest, "20", index.toString())
+            .enqueue(ApiCallback(callback))
     }
 }

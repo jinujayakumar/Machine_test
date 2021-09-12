@@ -21,7 +21,7 @@ public class Character implements Parcelable {
     public String description;
 
     @SerializedName("modified")
-    public Date modified;
+    public String modified;
 
     @SerializedName("thumbnail")
     public Thumbnail thumbnail;
@@ -68,11 +68,11 @@ public class Character implements Parcelable {
         this.description = description;
     }
 
-    public Date getModified() {
+    public String getModified() {
         return modified;
     }
 
-    public void setModified(Date modified) {
+    public void setModified(String modified) {
         this.modified = modified;
     }
 
@@ -142,7 +142,7 @@ public class Character implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.description);
-        dest.writeLong(this.modified != null ? this.modified.getTime() : -1);
+        dest.writeString(this.modified);
         dest.writeParcelable(this.thumbnail, flags);
         dest.writeString(this.resourceURI);
         dest.writeParcelable(this.comics, flags);
@@ -156,8 +156,7 @@ public class Character implements Parcelable {
         this.id = source.readInt();
         this.name = source.readString();
         this.description = source.readString();
-        long tmpModified = source.readLong();
-        this.modified = tmpModified == -1 ? null : new Date(tmpModified);
+        this.modified = source.readString();
         this.thumbnail = source.readParcelable(Thumbnail.class.getClassLoader());
         this.resourceURI = source.readString();
         this.comics = source.readParcelable(Comics.class.getClassLoader());
@@ -175,15 +174,14 @@ public class Character implements Parcelable {
         this.id = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
-        long tmpModified = in.readLong();
-        this.modified = tmpModified == -1 ? null : new Date(tmpModified);
+        this.modified = in.readString();
         this.thumbnail = in.readParcelable(Thumbnail.class.getClassLoader());
         this.resourceURI = in.readString();
         this.comics = in.readParcelable(Comics.class.getClassLoader());
         this.series = in.readParcelable(Series.class.getClassLoader());
         this.stories = in.readParcelable(Stories.class.getClassLoader());
         this.events = in.readParcelable(Events.class.getClassLoader());
-        this.urls = new ArrayList<Url>();
+        this.urls = new ArrayList<>();
         in.readList(this.urls, Url.class.getClassLoader());
     }
 
