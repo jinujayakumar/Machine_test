@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.PaginationCallback
-import com.example.kolomachinetest.data.Result
 import com.example.kolomachinetest.ui.adapter.PaginationAdapter.PaginationViewHolder
 import java.util.*
 
@@ -73,11 +72,15 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
     }
 
     fun setResult(results: ArrayList<M>, showLoadingScreen: Boolean) {
-        mShowLoadingScreen = showLoadingScreen;
+        mShowLoadingScreen = showLoadingScreen
         val size = results.size
         val oldSize = mListModel.size
         mListModel.addAll(results)
-        notifyItemRangeInserted(oldSize, size)
+        if (showLoadingScreen) {
+            notifyItemRangeInserted(oldSize, size)
+        } else {
+            notifyItemRangeInserted(oldSize, size - 1)
+        }
     }
 
     open class PaginationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

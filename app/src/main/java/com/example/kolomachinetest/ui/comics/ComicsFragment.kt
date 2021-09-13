@@ -1,83 +1,45 @@
 package com.example.kolomachinetest.ui.comics
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.api.CallBack
 import com.example.kolomachinetest.api.PaginationCallback
 import com.example.kolomachinetest.api.RemoteApiBuilder
 import com.example.kolomachinetest.data.ApiResponse
 import com.example.kolomachinetest.data.Result
-import com.example.kolomachinetest.databinding.FragmentComicsBinding
+import com.example.kolomachinetest.ui.base.ListBaseFragment
+import retrofit2.Call
 
-class ComicsFragment : Fragment(), PaginationCallback {
+class ComicsFragment : ListBaseFragment(), PaginationCallback {
 
-    private val TAG = "ComicsFragment"
-    private lateinit var mComicsViewModel: ComicsViewModel
-    private var _binding: FragmentComicsBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var mRecyclerView: RecyclerView
     private var list: ArrayList<Result> = ArrayList()
     private val mComicsListAdapter = ComicsListAdapter(list, this)
-    private lateinit var mProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mComicsViewModel =
-            ViewModelProvider(this).get(ComicsViewModel::class.java)
-
-        _binding = FragmentComicsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        mRecyclerView = binding.recyclerView
-        mProgressBar = binding.progressBar
-        mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
-        mRecyclerView.adapter = mComicsListAdapter
-        return root
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onLoadMore(0)
+        mRecyclerView.adapter = mComicsListAdapter
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
+        mComicsListAdapter.setResult(results, showLoadingScreen)
     }
 
-    override fun onLoadMore(position: Int) {
-        RemoteApiBuilder.fetchComicsList(position, object : CallBack<ApiResponse> {
-            override fun onSuccess(result: ApiResponse) {
-                val results = result.data.results
-                val showLoadingScreen = result.data.total != result.data.count + result.data.offset
-                mComicsListAdapter.setResult(results, showLoadingScreen)
-                mProgressBar.visibility = View.INVISIBLE
-            }
+    override fun onFailure(message: String?, pos: Int) {
+        super.onFailure(message, pos)
+        mComicsListAdapter.resetLastItem()
+    }
 
-            override fun onFailure(message: String?) {
-                mProgressBar.visibility = View.INVISIBLE
-                mComicsListAdapter.resetLastItem()
-                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "onFailure: $message")
-            }
-        })
+    override fun getApi(pos: Int): Call<ApiResponse> {
+        return RemoteApiBuilder.fetchComicsList(pos)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,19 +1,15 @@
 package com.example.kolomachinetest.ui.filter
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
-import android.widget.ArrayAdapter
 
 
 class FilterFragment : Fragment() {
@@ -25,7 +21,7 @@ class FilterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -52,7 +48,7 @@ class FilterFragment : Fragment() {
                 args.putString("format", mFormat.selectedItem.toString().lowercase())
                 args.putString("formatType", mFormatType.selectedItem.toString().lowercase())
                 args.putString("noVariants", mNoVariants.selectedItem.toString().lowercase())
-                args.putString("dateDescriptor", mDateDescriptor.selectedItem.toString().lowercase())
+                args.putString("dateDescriptor", mDateDescriptor.selectedItem.toString())
                 findNavController()
                     .navigate(R.id.action_filterFragment_to_filterResultFragment, args)
             }

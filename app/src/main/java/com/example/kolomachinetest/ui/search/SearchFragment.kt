@@ -21,7 +21,7 @@ class SearchFragment : Fragment(), SearchAdapter.SearchCallBack {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(

@@ -1,7 +1,6 @@
 package com.example.kolomachinetest.api
 
 import com.example.kolomachinetest.data.ApiResponse
-import com.example.kolomachinetest.data.Comics
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

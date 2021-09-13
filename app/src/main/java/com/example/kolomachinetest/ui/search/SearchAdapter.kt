@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.repo.local.Search
 
-class SearchAdapter(var list: List<Search>, var searchFragment: SearchCallBack) :
+class SearchAdapter(var list: List<Search>, private var searchCallBack: SearchCallBack) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     interface SearchCallBack {
@@ -23,7 +23,7 @@ class SearchAdapter(var list: List<Search>, var searchFragment: SearchCallBack) 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.textView.text = list[position].key
         holder.itemView.setOnClickListener {
-            searchFragment.onSearchSelected(list[position].key)
+            searchCallBack.onSearchSelected(list[position].key)
         }
     }
 

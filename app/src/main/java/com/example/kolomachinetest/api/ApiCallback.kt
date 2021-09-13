@@ -4,7 +4,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class ApiCallback<T>(private val mCallback: CallBack<T>) : Callback<T> {
+open class ApiCallback<T>(private val mCallback: CallBack<T>,val pos: Int) : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
@@ -13,11 +13,11 @@ open class ApiCallback<T>(private val mCallback: CallBack<T>) : Callback<T> {
                 mCallback.onSuccess(result)
             }
         } else {
-            mCallback.onFailure(response.message())
+            mCallback.onFailure(response.message(), pos)
         }
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        mCallback.onFailure(t.message)
+        mCallback.onFailure(t.message, pos)
     }
 }

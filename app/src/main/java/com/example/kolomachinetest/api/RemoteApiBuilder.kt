@@ -13,6 +13,7 @@ import java.util.*
 import okhttp3.HttpUrl
 
 import okhttp3.Request
+import retrofit2.Call
 
 
 object RemoteApiBuilder {
@@ -52,14 +53,12 @@ object RemoteApiBuilder {
         mService = mRetrofit.create(MarvelApis::class.java)
     }
 
-    fun fetchCharacterList(index: Int, callback: CallBack<ApiResponse>) {
-        mService.fetchCharacterList("50", index.toString())
-            .enqueue(ApiCallback(callback))
+    fun fetchCharacterList(index: Int): Call<ApiResponse> {
+        return mService.fetchCharacterList("50", index.toString())
     }
 
-    fun fetchComicsList(index: Int, callback: CallBack<ApiResponse>) {
-        mService.fetchComics("50", index.toString())
-            .enqueue(ApiCallback(callback))
+    fun fetchComicsList(index: Int): Call<ApiResponse> {
+        return mService.fetchComics("50", index.toString())
     }
 
     fun initDb(context: Context) {
@@ -75,16 +74,16 @@ object RemoteApiBuilder {
 
     fun searchComicsList(
         format: String, formatType: String,
-        noVariants: String, dateDescriptor: String, index: Int,
-        callback: CallBack<ApiResponse>) {
-        mService.filterComics(format, formatType, noVariants, dateDescriptor,
-            "50", index.toString())
-            .enqueue(ApiCallback(callback))
+        noVariants: String, dateDescriptor: String, index: Int
+    ): Call<ApiResponse> {
+        return mService.filterComics(
+            format, formatType, noVariants, dateDescriptor,
+            "50", index.toString()
+        )
     }
 
-    fun searchCharacterList(index: Int, name: String, callback: CallBack<ApiResponse>) {
-        mService.searchCharacterList(name, "50", index.toString())
-            .enqueue(ApiCallback(callback))
+    fun searchCharacterList(index: Int, name: String): Call<ApiResponse> {
+        return mService.searchCharacterList(name, "50", index.toString())
     }
 
     fun insertSearch(key: String) {

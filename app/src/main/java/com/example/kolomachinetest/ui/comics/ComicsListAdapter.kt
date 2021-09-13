@@ -47,7 +47,7 @@ class ComicsListAdapter(
     private fun getPrice(prices: List<Price>): CharSequence? {
         var price = ""
         if (prices.isNotEmpty() && prices[0] != null) {
-            price = "${prices[0].price}";
+            price = "${prices[0].price}"
         }
         return price
     }

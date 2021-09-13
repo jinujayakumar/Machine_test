@@ -1,10 +1,10 @@
-package com.example.kolomachinetest.ui.comics
+package com.example.kolomachinetest.ui.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ComicsViewModel : ViewModel() {
+class BaseViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
