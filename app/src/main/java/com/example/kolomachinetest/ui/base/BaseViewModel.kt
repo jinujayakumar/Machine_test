@@ -5,17 +5,18 @@ import androidx.lifecycle.ViewModel
 import com.example.kolomachinetest.api.ApiCallback
 import com.example.kolomachinetest.api.AppDataManager
 import com.example.kolomachinetest.api.CallBack
+import com.example.kolomachinetest.api.repo.marvel.ErrorType
 import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Result
 import retrofit2.Call
 import java.util.ArrayList
 
-class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
+open class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
 
     val mApiResultLiveData = MutableLiveData<ResponseModel>()
     val mErrorLiveModel = MutableLiveData<ErrorModel>()
-    private var responseModel = ResponseModel(arrayListOf(), true, 0)
+    private var mResponseModel = ResponseModel(arrayListOf(), true, 0, 0)
 
     fun fetchData(api: Call<ApiResponse>, position: Int, mListType: Int) {
         var refreshList = false
@@ -34,7 +35,8 @@ class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
                 }
             }
         }
-        responseModel.mListType = mListType
+        mResponseModel.postion = position
+        mResponseModel.mListType = mListType
         if (!refreshList) {
             api.enqueue(ApiCallback(this, position))
         }
@@ -44,21 +46,24 @@ class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
         val results = result.data.results
         val showLoadingScreen = result.data.total != result.data.count + result.data.offset
         saveAndUpdateData(results, showLoadingScreen)
+        if (result.data.total == 0 && mResponseModel.postion == 0) {
+            mErrorLiveModel.value = ErrorModel("No data found", 0, ErrorType.TYPE_EMPTY)
+        }
     }
 
     private fun saveAndUpdateData(
         results: ArrayList<Result>,
         showLoadingScreen: Boolean
     ) {
-        responseModel.mList.clear()
-        responseModel.mList.addAll(results)
-        responseModel.mShowProgress = showLoadingScreen
-        if (responseModel.mListType == ListType.TYPE_CHARACTERS) {
+        mResponseModel.mList.clear()
+        mResponseModel.mList.addAll(results)
+        mResponseModel.mShowProgress = showLoadingScreen
+        if (mResponseModel.mListType == ListType.TYPE_CHARACTERS) {
             AppDataManager.mCharacterList.addAll(results)
-        } else if (responseModel.mListType == ListType.TYPE_COMICS) {
+        } else if (mResponseModel.mListType == ListType.TYPE_COMICS) {
             AppDataManager.mComicsList.addAll(results)
         }
-        mApiResultLiveData.value = responseModel
+        mApiResultLiveData.value = mResponseModel
     }
 
     override fun onFailure(message: String?, pos: Int) {

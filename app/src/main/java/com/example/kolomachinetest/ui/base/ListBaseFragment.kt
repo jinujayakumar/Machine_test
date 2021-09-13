@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kolomachinetest.api.repo.marvel.ErrorType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.databinding.FragmentListBaseBinding
@@ -58,13 +59,19 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
             onSuccess(it.mList, it.mShowProgress)
         })
         mBaseViewModel.mErrorLiveModel.observe(viewLifecycleOwner, {
-            if (it.string != null) {
+            if (it.message != null) {
                 mProgressBar.visibility = View.INVISIBLE
-                onFailure(it.string, it.position)
-                if (it.position == 0) {
-                    mTextView.visibility = View.VISIBLE
+                onFailure(it.message, it.position)
+                if (it.errorType == ErrorType.TYPE_UNKNOWN) {
+                    if (it.position == 0) {
+                        mTextView.visibility = View.VISIBLE
+                    } else {
+                        onLoadMore(it.position)
+                    }
                 } else {
-                    onLoadMore(it.position)
+                    mTextView.visibility = View.VISIBLE
+                    mTextView.text = it.message
+                    mTextView.setOnClickListener(null)
                 }
             }
         })

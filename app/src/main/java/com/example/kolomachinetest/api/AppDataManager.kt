@@ -12,7 +12,7 @@ import retrofit2.Call
 
 object AppDataManager {
 
-    private var db: AppDatabase? = null
+    private var mAppDatabse: AppDatabase? = null
     var mComicsList = ArrayList<Result>()
     var mCharacterList = ArrayList<Result>()
 
@@ -25,14 +25,14 @@ object AppDataManager {
     }
 
     fun initDb(context: Context) {
-        db = Room.databaseBuilder(
+        mAppDatabse = Room.databaseBuilder(
             context,
             AppDatabase::class.java, "search-db"
         ).allowMainThreadQueries().build()
     }
 
     fun searchList(): List<Search>? {
-        return db?.userDao()?.getSearchList()
+        return mAppDatabse?.userDao()?.getSearchList()
     }
 
     fun searchComicsList(
@@ -51,6 +51,6 @@ object AppDataManager {
 
     fun insertSearch(key: String) {
         val search = Search(key.hashCode(), key)
-        db?.userDao()?.insertSearchQuery(search)
+        mAppDatabse?.userDao()?.insertSearchQuery(search)
     }
 }
