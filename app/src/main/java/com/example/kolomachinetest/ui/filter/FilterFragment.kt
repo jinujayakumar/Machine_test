@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
+import com.example.kolomachinetest.ui.base.BaseFragment
 
 
-class FilterFragment : Fragment() {
+class FilterFragment : BaseFragment() {
 
     private lateinit var mFormat: Spinner
     private lateinit var mFormatType: Spinner
@@ -64,10 +64,13 @@ class FilterFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            val findNavController = findNavController()
-            findNavController.popBackStack()
+            onBackPressed()
             return true
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        findNavController().popBackStack()
     }
 }

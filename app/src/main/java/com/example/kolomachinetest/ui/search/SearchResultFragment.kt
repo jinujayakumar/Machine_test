@@ -34,8 +34,7 @@ class SearchResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            val findNavController = findNavController()
-            findNavController.navigate(R.id.action_searchResultFragment_to_navigation_home)
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -48,6 +47,10 @@ class SearchResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
 
     override fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
         mFilterAdapter.setResult(results, showLoadingScreen)
+    }
+
+    override fun onBackPressed() {
+        findNavController().navigate(R.id.action_searchResultFragment_to_navigation_home)
     }
 
     override fun onFailure(message: String?, pos: Int) {

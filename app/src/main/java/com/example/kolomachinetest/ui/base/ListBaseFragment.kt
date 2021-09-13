@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,7 @@ import com.example.kolomachinetest.data.Result
 import com.example.kolomachinetest.databinding.FragmentListBaseBinding
 import retrofit2.Call
 
-abstract class ListBaseFragment : Fragment(), PaginationCallback, CallBack<ApiResponse> {
+abstract class ListBaseFragment : BaseFragment(), PaginationCallback, CallBack<ApiResponse> {
 
     lateinit var mRecyclerView: RecyclerView
     private lateinit var mProgressBar: ProgressBar

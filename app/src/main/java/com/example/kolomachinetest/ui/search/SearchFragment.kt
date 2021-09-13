@@ -5,15 +5,15 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.api.RemoteApiBuilder
 import com.example.kolomachinetest.api.repo.local.Search
+import com.example.kolomachinetest.ui.base.BaseFragment
 
-class SearchFragment : Fragment(), SearchAdapter.SearchCallBack {
+class SearchFragment : BaseFragment(), SearchAdapter.SearchCallBack {
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mEditText: EditText
@@ -53,15 +53,17 @@ class SearchFragment : Fragment(), SearchAdapter.SearchCallBack {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            val findNavController = findNavController()
-            findNavController.popBackStack()
             return true
         }
         return false
     }
 
-    override fun onSearchSelected(key: String?) {
-        search(key, false)
+    override fun onBackPressed() {
+        findNavController().popBackStack()
+    }
+
+    override fun onSearchSelected(string: String?) {
+        search(string, false)
     }
 
     private fun search(key: String?, insert: Boolean) {

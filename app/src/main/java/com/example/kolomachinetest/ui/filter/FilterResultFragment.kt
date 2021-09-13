@@ -39,7 +39,7 @@ class FilterResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            findNavController().navigate(R.id.action_filterResultFragment_to_navigation_dashboard)
+            onBackPressed()
             return true
         }
         return false
@@ -61,4 +61,7 @@ class FilterResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
         mFilterAdapter.resetLastItem()
     }
 
+    override fun onBackPressed() {
+        findNavController().navigate(R.id.action_filterResultFragment_to_navigation_dashboard)
+    }
 }
