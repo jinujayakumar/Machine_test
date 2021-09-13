@@ -1,13 +1,14 @@
-package com.example.kolomachinetest.data;
+package com.example.kolomachinetest.api.repo.marvel.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Series implements Parcelable {
+public class Events implements Parcelable {
 
     @SerializedName("available")
     public int available;
@@ -20,12 +21,6 @@ public class Series implements Parcelable {
 
     @SerializedName("returned")
     public int returned;
-
-    @SerializedName("resourceURI")
-    public String resourceURI;
-
-    @SerializedName("name")
-    public String name;
 
     public int getAvailable() {
         return available;
@@ -59,22 +54,6 @@ public class Series implements Parcelable {
         this.returned = returned;
     }
 
-    public String getResourceURI() {
-        return resourceURI;
-    }
-
-    public void setResourceURI(String resourceURI) {
-        this.resourceURI = resourceURI;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -84,36 +63,38 @@ public class Series implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.available);
         dest.writeString(this.collectionURI);
-        dest.writeTypedList(this.items);
+        dest.writeList(this.items);
         dest.writeInt(this.returned);
     }
 
     public void readFromParcel(Parcel source) {
         this.available = source.readInt();
         this.collectionURI = source.readString();
-        this.items = source.createTypedArrayList(Item.CREATOR);
+        this.items = new ArrayList<Item>();
+        source.readList(this.items, Item.class.getClassLoader());
         this.returned = source.readInt();
     }
 
-    public Series() {
+    public Events() {
     }
 
-    protected Series(Parcel in) {
+    protected Events(Parcel in) {
         this.available = in.readInt();
         this.collectionURI = in.readString();
-        this.items = in.createTypedArrayList(Item.CREATOR);
+        this.items = new ArrayList<Item>();
+        in.readList(this.items, Item.class.getClassLoader());
         this.returned = in.readInt();
     }
 
-    public static final Parcelable.Creator<Series> CREATOR = new Parcelable.Creator<Series>() {
+    public static final Parcelable.Creator<Events> CREATOR = new Parcelable.Creator<Events>() {
         @Override
-        public Series createFromParcel(Parcel source) {
-            return new Series(source);
+        public Events createFromParcel(Parcel source) {
+            return new Events(source);
         }
 
         @Override
-        public Series[] newArray(int size) {
-            return new Series[size];
+        public Events[] newArray(int size) {
+            return new Events[size];
         }
     };
 }

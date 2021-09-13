@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.api.RemoteApiBuilder
+import com.example.kolomachinetest.api.AppDataManager
 import com.example.kolomachinetest.api.repo.local.Search
 import com.example.kolomachinetest.ui.base.BaseFragment
 
@@ -36,9 +36,9 @@ class SearchFragment : BaseFragment(), SearchAdapter.SearchCallBack {
         super.onViewCreated(view, savedInstanceState)
         mRecyclerView = view.findViewById(R.id.recyclerView)
         mEditText = view.findViewById(R.id.editTextSearch)
-        RemoteApiBuilder.initDb(requireActivity().applicationContext)
+        AppDataManager.initDb(requireActivity().applicationContext)
         mRecyclerView.layoutManager = LinearLayoutManager(activity)
-        list = RemoteApiBuilder.searchList() ?: list
+        list = AppDataManager.searchList() ?: list
         mRecyclerView.adapter = SearchAdapter(list, this)
         mEditText.imeOptions = EditorInfo.IME_ACTION_SEARCH
         mEditText.requestFocus()
@@ -71,7 +71,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.SearchCallBack {
             val args = Bundle()
             args.putString("key", key)
             if (insert) {
-                RemoteApiBuilder.insertSearch(key)
+                AppDataManager.insertSearch(key)
             }
             findNavController().navigate(R.id.action_searchFragment_to_searchResultFragment, args)
         } else {

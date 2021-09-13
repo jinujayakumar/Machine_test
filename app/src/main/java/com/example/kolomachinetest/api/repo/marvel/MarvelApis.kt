@@ -1,11 +1,11 @@
-package com.example.kolomachinetest.api
+package com.example.kolomachinetest.api.repo.marvel
 
-import com.example.kolomachinetest.data.ApiResponse
+import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-internal interface MarvelApis {
+interface MarvelApis {
 
     @GET("characters")
     fun fetchCharacterList(

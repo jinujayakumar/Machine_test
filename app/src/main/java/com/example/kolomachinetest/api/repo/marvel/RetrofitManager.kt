@@ -1,29 +1,20 @@
-package com.example.kolomachinetest.api
+package com.example.kolomachinetest.api.repo.marvel
 
-import android.content.Context
-import androidx.room.Room
-import com.example.kolomachinetest.api.repo.local.AppDatabase
-import com.example.kolomachinetest.api.repo.local.Search
-import com.example.kolomachinetest.data.ApiResponse
 import com.example.kolomachinetest.uils.Utils
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
-import okhttp3.HttpUrl
 
-import okhttp3.Request
-import retrofit2.Call
-
-
-object RemoteApiBuilder {
+object RetrofitManager {
 
     private const val PUBLIC_API_KEY = "c891814ea12247a397de24d25db52d2e"
     private const val PRIVATE_API_KEY = "85734dd3c68644ac35ebc96e68c1cbd3744bbecb"
     private val mHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
     private var mRetrofit: Retrofit
-    private var mService: MarvelApis
-    private var db: AppDatabase? = null
+    var mService: MarvelApis
 
     init {
         mHttpClient.addInterceptor { chain ->
@@ -51,43 +42,5 @@ object RemoteApiBuilder {
             .client(mHttpClient.build())
             .build()
         mService = mRetrofit.create(MarvelApis::class.java)
-    }
-
-    fun fetchCharacterList(index: Int): Call<ApiResponse> {
-        return mService.fetchCharacterList("50", index.toString())
-    }
-
-    fun fetchComicsList(index: Int): Call<ApiResponse> {
-        return mService.fetchComics("50", index.toString())
-    }
-
-    fun initDb(context: Context) {
-        db = Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, "search-db"
-        ).allowMainThreadQueries().build()
-    }
-
-    fun searchList(): List<Search>? {
-        return db?.userDao()?.getSearchList()
-    }
-
-    fun searchComicsList(
-        format: String, formatType: String,
-        noVariants: String, dateDescriptor: String, index: Int
-    ): Call<ApiResponse> {
-        return mService.filterComics(
-            format, formatType, noVariants, dateDescriptor,
-            "50", index.toString()
-        )
-    }
-
-    fun searchCharacterList(index: Int, name: String): Call<ApiResponse> {
-        return mService.searchCharacterList(name, "50", index.toString())
-    }
-
-    fun insertSearch(key: String) {
-        val search = Search(key.hashCode(), key)
-        db?.userDao()?.insertSearchQuery(search)
     }
 }

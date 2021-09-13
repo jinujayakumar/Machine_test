@@ -8,9 +8,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.api.PaginationCallback
-import com.example.kolomachinetest.data.Price
-import com.example.kolomachinetest.data.Result
+import com.example.kolomachinetest.ui.adapter.PaginationCallback
+import com.example.kolomachinetest.api.repo.marvel.data.Price
+import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.uils.Utils
 

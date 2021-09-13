@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.api
+package com.example.kolomachinetest.ui.adapter
 
 
 interface PaginationCallback {

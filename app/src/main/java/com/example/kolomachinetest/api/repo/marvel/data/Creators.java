@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.data;
+package com.example.kolomachinetest.api.repo.marvel.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Stories implements Parcelable {
+public class Creators implements Parcelable {
+
 
     @SerializedName("available")
     public int available;
@@ -20,7 +21,6 @@ public class Stories implements Parcelable {
 
     @SerializedName("returned")
     public int returned;
-
 
     public int getAvailable() {
         return available;
@@ -74,25 +74,25 @@ public class Stories implements Parcelable {
         this.returned = source.readInt();
     }
 
-    public Stories() {
+    public Creators() {
     }
 
-    protected Stories(Parcel in) {
+    protected Creators(Parcel in) {
         this.available = in.readInt();
         this.collectionURI = in.readString();
         this.items = in.createTypedArrayList(Item.CREATOR);
         this.returned = in.readInt();
     }
 
-    public static final Parcelable.Creator<Stories> CREATOR = new Parcelable.Creator<Stories>() {
+    public static final Parcelable.Creator<Creators> CREATOR = new Parcelable.Creator<Creators>() {
         @Override
-        public Stories createFromParcel(Parcel source) {
-            return new Stories(source);
+        public Creators createFromParcel(Parcel source) {
+            return new Creators(source);
         }
 
         @Override
-        public Stories[] newArray(int size) {
-            return new Stories[size];
+        public Creators[] newArray(int size) {
+            return new Creators[size];
         }
     };
 }

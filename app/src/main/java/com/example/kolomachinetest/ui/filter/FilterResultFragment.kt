@@ -5,15 +5,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.api.CallBack
-import com.example.kolomachinetest.api.PaginationCallback
-import com.example.kolomachinetest.api.RemoteApiBuilder
-import com.example.kolomachinetest.data.ApiResponse
-import com.example.kolomachinetest.data.Result
+import com.example.kolomachinetest.ui.adapter.PaginationCallback
+import com.example.kolomachinetest.api.AppDataManager
+import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
+import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.ui.base.ListBaseFragment
 import retrofit2.Call
 
-class FilterResultFragment : ListBaseFragment(), PaginationCallback, CallBack<ApiResponse> {
+class FilterResultFragment : ListBaseFragment(), PaginationCallback {
 
     private lateinit var mFormat: String
     private lateinit var mFormatType: String
@@ -46,7 +45,7 @@ class FilterResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
     }
 
     override fun getApi(pos: Int): Call<ApiResponse> {
-        return RemoteApiBuilder.searchComicsList(
+        return AppDataManager.searchComicsList(
             mFormat, mFormatType,
             mNoVariants, mDateDescriptor,
             pos)
@@ -57,7 +56,6 @@ class FilterResultFragment : ListBaseFragment(), PaginationCallback, CallBack<Ap
     }
 
     override fun onFailure(message: String?, pos: Int) {
-        super.onFailure(message, pos)
         mFilterAdapter.resetLastItem()
     }
 

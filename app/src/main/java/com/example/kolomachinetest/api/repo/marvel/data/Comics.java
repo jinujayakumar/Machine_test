@@ -1,4 +1,4 @@
-package com.example.kolomachinetest.data;
+package com.example.kolomachinetest.api.repo.marvel.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

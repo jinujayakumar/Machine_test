@@ -7,10 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.api.PaginationCallback
-import com.example.kolomachinetest.api.RemoteApiBuilder
-import com.example.kolomachinetest.data.ApiResponse
-import com.example.kolomachinetest.data.Result
+import com.example.kolomachinetest.ui.adapter.PaginationCallback
+import com.example.kolomachinetest.api.AppDataManager
+import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
+import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.ui.base.ListBaseFragment
 import retrofit2.Call
 
@@ -41,7 +41,7 @@ class CharacterFragment : ListBaseFragment(), PaginationCallback {
     }
 
     override fun getApi(pos: Int): Call<ApiResponse> {
-        return RemoteApiBuilder.fetchCharacterList(pos)
+        return AppDataManager.fetchCharacterList(pos)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
