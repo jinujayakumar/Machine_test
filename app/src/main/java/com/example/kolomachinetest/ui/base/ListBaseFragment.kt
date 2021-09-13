@@ -23,6 +23,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
     private lateinit var mBaseViewModel: BaseViewModel
     private var _binding: FragmentListBaseBinding? = null
     private val binding get() = _binding!!
+    var mListType: Int = 0
 
     abstract fun getApi(pos: Int): Call<ApiResponse>
     abstract fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean)
@@ -54,7 +55,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
         mBaseViewModel.mApiResultLiveData.observe(viewLifecycleOwner, {
             mProgressBar.visibility = View.INVISIBLE
             mTextView.visibility = View.INVISIBLE
-            onSuccess(it.list, it.showProgress)
+            onSuccess(it.mList, it.mShowProgress)
         })
         mBaseViewModel.mErrorLiveModel.observe(viewLifecycleOwner, {
             if (it.string != null) {
@@ -71,7 +72,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
 
     override fun onLoadMore(position: Int) {
         mTextView.visibility = View.INVISIBLE
-        mBaseViewModel.fetchData(getApi(position), position)
+        mBaseViewModel.fetchData(getApi(position), position, mListType)
     }
 
     override fun onDestroyView() {

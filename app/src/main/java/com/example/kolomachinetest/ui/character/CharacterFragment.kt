@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.api.AppDataManager
+import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.ui.base.ListBaseFragment
@@ -17,12 +18,13 @@ import retrofit2.Call
 
 class CharacterFragment : ListBaseFragment(), PaginationCallback {
 
-    private var list: ArrayList<Result> = ArrayList()
-    private val mCharacterListAdapter = CharacterListAdapter(list, this)
+    private var mComicsList: ArrayList<Result> = ArrayList()
+    private val mCharacterListAdapter = CharacterListAdapter(mComicsList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        mListType = ListType.TYPE_CHARACTERS
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,5 +58,9 @@ class CharacterFragment : ListBaseFragment(), PaginationCallback {
             return true
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        requireActivity().finish()
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
 import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.api.AppDataManager
+import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.ui.base.ListBaseFragment
@@ -22,6 +23,7 @@ class ComicsFragment : ListBaseFragment(), PaginationCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        mListType = ListType.TYPE_COMICS
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,5 +55,9 @@ class ComicsFragment : ListBaseFragment(), PaginationCallback {
             return true
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        requireActivity().finish()
     }
 }

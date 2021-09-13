@@ -6,12 +6,15 @@ import com.example.kolomachinetest.api.repo.local.AppDatabase
 import com.example.kolomachinetest.api.repo.local.Search
 import com.example.kolomachinetest.api.repo.marvel.RetrofitManager
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
+import com.example.kolomachinetest.api.repo.marvel.data.Result
 import retrofit2.Call
 
 
 object AppDataManager {
 
     private var db: AppDatabase? = null
+    var mComicsList = ArrayList<Result>()
+    var mCharacterList = ArrayList<Result>()
 
     fun fetchCharacterList(index: Int): Call<ApiResponse> {
         return RetrofitManager.mService.fetchCharacterList("50", index.toString())
