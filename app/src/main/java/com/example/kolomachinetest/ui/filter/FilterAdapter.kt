@@ -14,23 +14,23 @@ import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.uils.Utils
 
 class FilterAdapter(
-    list: MutableList<Result>, callback: PaginationCallback,
+    list: MutableList<Result?>, callback: PaginationCallback,
     private val isSearch: Boolean
 ) :
-    PaginationAdapter<FilterAdapter.FilterViewHolder, Result>(list, callback) {
+    PaginationAdapter<FilterAdapter.FilterViewHolder, Result?>(list, callback) {
 
     class FilterViewHolder(view: View) : PaginationViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val textView: TextView = view.findViewById(R.id.textView)
     }
 
-    override fun onBindViewHolder(holder: FilterViewHolder, pos: Int, model: Result) {
+    override fun onBindViewHolder(holder: FilterViewHolder, pos: Int, model: Result?) {
         if (!isSearch) {
-            holder.textView.text = model.name
+            holder.textView.text = model?.name
         } else {
-            holder.textView.text = model.title
+            holder.textView.text = model?.title
         }
-        val url = "${model.thumbnail.path}.${model.thumbnail.extension}"
+        val url = "${model?.thumbnail?.path}.${model?.thumbnail?.extension}"
         Glide.with(holder.textView.context)
             .load(url)
             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)

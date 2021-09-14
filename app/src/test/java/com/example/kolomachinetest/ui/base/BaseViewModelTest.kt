@@ -71,10 +71,10 @@ class BaseViewModelTest {
     fun onSuccess() {
         val apiResponse = spy(ApiResponse::class.java)
         val data = spy(Data::class.java)
-        val arrayList = ArrayList<Result>()
+        val arrayList = ArrayList<Result?>()
         arrayList.add(mock(Result::class.java))
-        data.setResults(arrayList)
-        apiResponse.setData(data)
+        data.results = arrayList
+        apiResponse.data = data
         model.onSuccess(apiResponse)
         Assert.assertEquals(model.mApiResultLiveData.value?.mList, arrayList)
     }

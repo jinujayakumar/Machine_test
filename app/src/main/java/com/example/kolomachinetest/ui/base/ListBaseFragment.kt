@@ -29,8 +29,8 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
     private lateinit var mBaseViewModel: BaseViewModel
     private var _binding: FragmentListBaseBinding? = null
     private val binding get() = _binding!!
-    private var mAdapter: PaginationAdapter<*, Result>? = null
-    private var mLists: ArrayList<Result> = arrayListOf<Result>()
+    private var mAdapter: PaginationAdapter<*, Result?>? = null
+    private var mLists: ArrayList<Result?> = arrayListOf()
 
     abstract fun getApi(pos: Int): Call<ApiResponse>
     abstract fun getListType(): Int
@@ -84,7 +84,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
         })
     }
 
-    private fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
+    private fun onSuccess(results: ArrayList<Result?>, showLoadingScreen: Boolean) {
         mAdapter?.setResult(results, showLoadingScreen)
     }
 
@@ -92,7 +92,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
         mAdapter?.resetLastItem()
     }
 
-    private fun getListAdapter(): PaginationAdapter<*, Result>? = when (getListType()) {
+    private fun getListAdapter(): PaginationAdapter<*, Result?>? = when (getListType()) {
         ListType.TYPE_CHARACTERS -> {
             CharacterListAdapter(mLists, this)
         }

@@ -14,10 +14,10 @@ import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.uils.Utils
 
 class CharacterListAdapter(
-    list: ArrayList<Result>,
+    list: ArrayList<Result?>,
     paginationCallback: PaginationCallback
 ) :
-    PaginationAdapter<CharacterListAdapter.CharacterVH, Result>(list, paginationCallback) {
+    PaginationAdapter<CharacterListAdapter.CharacterVH, Result?>(list, paginationCallback) {
 
 
     class CharacterVH(view: View) : PaginationAdapter.PaginationViewHolder(view) {
@@ -30,9 +30,9 @@ class CharacterListAdapter(
         return CharacterVH(view)
     }
 
-    override fun onBindViewHolder(holder: CharacterVH, pos: Int, model: Result) {
-        holder.textView.text = model.name
-        val url = "${model.thumbnail.path}.${model.thumbnail.extension}"
+    override fun onBindViewHolder(holder: CharacterVH, pos: Int, model: Result?) {
+        holder.textView.text = model?.name
+        val url = "${model?.thumbnail?.path}.${model?.thumbnail?.extension}"
         Glide.with(holder.textView.context)
             .load(url)
             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)

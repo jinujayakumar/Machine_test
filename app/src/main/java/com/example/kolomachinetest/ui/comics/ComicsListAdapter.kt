@@ -15,10 +15,10 @@ import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.uils.Utils
 
 class ComicsListAdapter(
-    list: ArrayList<Result>,
+    list: ArrayList<Result?>,
     paginationCallback: PaginationCallback
 ) :
-    PaginationAdapter<ComicsListAdapter.ComicsViewHolder, Result>(list, paginationCallback) {
+    PaginationAdapter<ComicsListAdapter.ComicsViewHolder, Result?>(list, paginationCallback) {
 
 
     class ComicsViewHolder(view: View) : PaginationAdapter.PaginationViewHolder(view) {
@@ -32,10 +32,10 @@ class ComicsListAdapter(
         return ComicsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ComicsViewHolder, pos: Int, model: Result) {
-        holder.textView.text = model.title
-        holder.price.text = getPrice(model.prices)
-        val url = "${model.thumbnail.path}.${model.thumbnail.extension}"
+    override fun onBindViewHolder(holder: ComicsViewHolder, pos: Int, model: Result?) {
+        holder.textView.text = model?.title
+        holder.price.text = getPrice(model?.prices)
+        val url = "${model?.thumbnail?.path}.${model?.thumbnail?.extension}"
         Glide.with(holder.textView.context)
             .load(url)
             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
@@ -44,9 +44,9 @@ class ComicsListAdapter(
             .into(holder.imageView)
     }
 
-    private fun getPrice(prices: List<Price>): CharSequence? {
+    private fun getPrice(prices: List<Price>?): CharSequence {
         var price = ""
-        if (prices.isNotEmpty() && prices[0] != null) {
+        if (prices != null && prices.isNotEmpty() && prices[0] != null) {
             price = "$${prices[0].price}"
         }
         return price

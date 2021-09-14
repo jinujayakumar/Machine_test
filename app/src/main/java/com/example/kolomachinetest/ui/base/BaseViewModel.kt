@@ -43,16 +43,21 @@ class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
     }
 
     override fun onSuccess(result: ApiResponse) {
-        val results = result.data.results
-        val showLoadingScreen = result.data.total != result.data.count + result.data.offset
-        saveAndUpdateData(results, showLoadingScreen)
-        if (result.data.total == 0 && mResponseModel.postion == 0) {
-            mErrorLiveModel.value = ErrorModel("No data found", 0, ErrorType.TYPE_EMPTY)
+        val data = result.data
+        if (data != null) {
+            val results = data.results
+            val showLoadingScreen = data.total != data.count + data.offset
+            if (results != null) {
+                saveAndUpdateData(results, showLoadingScreen)
+                if (data.total == 0 && mResponseModel.postion == 0) {
+                    mErrorLiveModel.value = ErrorModel("No data found", 0, ErrorType.TYPE_EMPTY)
+                }
+            }
         }
     }
 
     private fun saveAndUpdateData(
-        results: ArrayList<Result>,
+        results: ArrayList<Result?>,
         showLoadingScreen: Boolean
     ) {
         mResponseModel.mList.clear()
