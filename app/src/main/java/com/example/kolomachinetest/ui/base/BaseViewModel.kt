@@ -12,7 +12,7 @@ import com.example.kolomachinetest.api.repo.marvel.data.Result
 import retrofit2.Call
 import java.util.ArrayList
 
-open class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
+class BaseViewModel : ViewModel(), CallBack<ApiResponse> {
 
     val mApiResultLiveData = MutableLiveData<ResponseModel>()
     val mErrorLiveModel = MutableLiveData<ErrorModel>()

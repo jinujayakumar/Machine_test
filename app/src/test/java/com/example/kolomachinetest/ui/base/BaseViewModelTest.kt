@@ -1,74 +1,82 @@
 package com.example.kolomachinetest.ui.base
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import com.example.kolomachinetest.FieldSetter
 import com.example.kolomachinetest.api.AppDataManager
 import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Data
 import com.example.kolomachinetest.api.repo.marvel.data.Result
+import junit.framework.Assert.assertEquals
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
-import org.mockito.internal.util.reflection.FieldSetter
+import org.mockito.Spy
 import retrofit2.Call
 import java.util.*
 
+@RunWith(JUnit4::class)
 class BaseViewModelTest {
 
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Spy
     private lateinit var model: BaseViewModel
 
     @Mock
     private lateinit var call: Call<ApiResponse>
 
-    private lateinit var mApiResultLiveData: ResponseModel
+    @Spy
+    private lateinit var mApiResultLiveData: MutableLiveData<ResponseModel>
 
-    private lateinit var mErrorLiveModel: ErrorModel
+    @Spy
+    private lateinit var mErrorLiveModel: MutableLiveData<ErrorModel>
 
     @Before
     fun before() {
-        model = mock(BaseViewModel::class.java)
-        MockitoAnnotations.initMocks(this)
-        mApiResultLiveData = mock(ResponseModel::class.java)
-        mErrorLiveModel = mock(ErrorModel::class.java)
+        MockitoAnnotations.openMocks(this)
         FieldSetter.setField(
             model,
-            BaseViewModel::class.java.getDeclaredField("mApiResultLiveData"),
+            "mApiResultLiveData",
             mApiResultLiveData
         )
         FieldSetter.setField(
             model,
-            BaseViewModel::class.java.getDeclaredField("mErrorLiveModel"),
+            "mErrorLiveModel",
             mErrorLiveModel
         )
     }
 
-
     @Test
     fun fetchData() {
-        model.fetchData(call, 0, ListType.TYPE_CHARACTERS)
         val arrayList = ArrayList<Result>()
         arrayList.add(mock(Result::class.java))
         FieldSetter.setField(
             AppDataManager,
-            AppDataManager::class.java.getDeclaredField("mCharacterList"), arrayList
+            "mCharacterList", arrayList
         )
-        verify(model.mApiResultLiveData).value
+        model.fetchData(call, 0, ListType.TYPE_CHARACTERS)
+        assertEquals(model.mApiResultLiveData.value?.mList, arrayList)
     }
 
     @Test
     fun onSuccess() {
-        val apiResponse = mock(ApiResponse::class.java)
-        val data = mock(Data::class.java)
+        val apiResponse = spy(ApiResponse::class.java)
+        val data = spy(Data::class.java)
         val arrayList = ArrayList<Result>()
         arrayList.add(mock(Result::class.java))
-        val result = Mockito.`when`(data.results).thenReturn(arrayList)
-        Mockito.`when`(apiResponse.data).thenReturn(data)
+        data.setResults(arrayList)
+        apiResponse.setData(data)
         model.onSuccess(apiResponse)
-        Assert.assertEquals(model.mApiResultLiveData.value?.mList, result)
+        Assert.assertEquals(model.mApiResultLiveData.value?.mList, arrayList)
     }
 
     @Test
