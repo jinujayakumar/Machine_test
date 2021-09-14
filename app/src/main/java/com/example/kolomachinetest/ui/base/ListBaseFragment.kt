@@ -109,6 +109,9 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
     }
 
     override fun onLoadMore(position: Int) {
+        if (position == 0) {
+            mProgressBar.visibility = View.VISIBLE
+        }
         mTextView.visibility = View.INVISIBLE
         mBaseViewModel.fetchData(getApi(position), position, getListType())
     }

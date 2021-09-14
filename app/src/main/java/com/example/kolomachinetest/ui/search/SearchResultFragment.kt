@@ -2,16 +2,13 @@ package com.example.kolomachinetest.ui.search
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.api.AppDataManager
 import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
-import com.example.kolomachinetest.api.repo.marvel.data.Result
+import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.ui.base.ListBaseFragment
-import com.example.kolomachinetest.ui.filter.FilterAdapter
 import retrofit2.Call
 
 class SearchResultFragment : ListBaseFragment(), PaginationCallback {

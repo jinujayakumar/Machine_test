@@ -4,21 +4,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.kolomachinetest.R
-import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.api.AppDataManager
 import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
-import com.example.kolomachinetest.api.repo.marvel.data.Result
+import com.example.kolomachinetest.ui.adapter.PaginationCallback
 import com.example.kolomachinetest.ui.base.ListBaseFragment
 import retrofit2.Call
 
 class ComicsFragment : ListBaseFragment(), PaginationCallback {
-
-    private var list: ArrayList<Result> = ArrayList()
-    private val mComicsListAdapter = ComicsListAdapter(list, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
