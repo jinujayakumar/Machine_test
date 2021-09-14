@@ -76,7 +76,7 @@ class BaseViewModelTest {
         data.results = arrayList
         apiResponse.data = data
         model.onSuccess(apiResponse)
-        Assert.assertEquals(model.mApiResultLiveData.value?.mList, null)
+        Assert.assertEquals(model.mApiResultLiveData.value?.mList, arrayList)
     }
 
     @Test
