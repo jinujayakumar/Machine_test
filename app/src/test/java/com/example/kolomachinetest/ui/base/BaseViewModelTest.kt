@@ -71,7 +71,7 @@ class BaseViewModelTest {
     fun onSuccess() {
         val apiResponse = spy(ApiResponse::class.java)
         val data = spy(Data::class.java)
-        val arrayList = ArrayList<Result>()
+        val arrayList = ArrayList<Result?>()
         arrayList.add(mock(Result::class.java))
         data.results = arrayList
         apiResponse.data = data
