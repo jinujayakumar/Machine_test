@@ -3,6 +3,7 @@ package com.example.kolomachinetest.api.repo.marvel.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.kolomachinetest.ui.adapter.PaginationAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

@@ -17,20 +17,11 @@ import retrofit2.Call
 class SearchResultFragment : ListBaseFragment(), PaginationCallback {
 
     private lateinit var name: String
-    private val list = ArrayList<Result>()
-    private lateinit var mFilterAdapter: FilterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         name = arguments?.getString("key").toString()
-        mListType = ListType.TYPE_SEARCH
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mFilterAdapter = FilterAdapter(list, this, false)
-        mRecyclerView.adapter = mFilterAdapter
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -46,16 +37,10 @@ class SearchResultFragment : ListBaseFragment(), PaginationCallback {
             pos, name)
     }
 
-    override fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
-        mFilterAdapter.setResult(results, showLoadingScreen)
-    }
-
     override fun onBackPressed() {
         findNavController().navigate(R.id.action_searchResultFragment_to_navigation_home)
     }
 
-    override fun onFailure(message: String?, pos: Int) {
-        mFilterAdapter.resetLastItem()
-    }
+    override fun getListType() = ListType.TYPE_SEARCH
 
 }

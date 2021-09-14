@@ -23,21 +23,9 @@ class ComicsFragment : ListBaseFragment(), PaginationCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        mListType = ListType.TYPE_COMICS
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mRecyclerView.adapter = mComicsListAdapter
-    }
-
-    override fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
-        mComicsListAdapter.setResult(results, showLoadingScreen)
-    }
-
-    override fun onFailure(message: String?, pos: Int) {
-        mComicsListAdapter.resetLastItem()
-    }
+    override fun getListType() = ListType.TYPE_COMICS
 
     override fun getApi(pos: Int): Call<ApiResponse> {
         return AppDataManager.fetchComicsList(pos)

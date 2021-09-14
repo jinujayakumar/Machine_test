@@ -24,23 +24,9 @@ class CharacterFragment : ListBaseFragment(), PaginationCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        mListType = ListType.TYPE_CHARACTERS
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mRecyclerView.adapter = mCharacterListAdapter
-    }
-
-    override fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
-        mCharacterListAdapter.setResult(results, showLoadingScreen)
-    }
-
-    override fun onFailure(message: String?, pos: Int) {
-        if (pos != 0) {
-            mCharacterListAdapter.resetLastItem()
-        }
-    }
+    override fun getListType() = ListType.TYPE_CHARACTERS
 
     override fun getApi(pos: Int): Call<ApiResponse> {
         return AppDataManager.fetchCharacterList(pos)

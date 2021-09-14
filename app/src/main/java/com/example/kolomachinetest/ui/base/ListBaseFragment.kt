@@ -10,10 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kolomachinetest.api.repo.marvel.ErrorType
+import com.example.kolomachinetest.api.repo.marvel.ListType
 import com.example.kolomachinetest.api.repo.marvel.data.ApiResponse
 import com.example.kolomachinetest.api.repo.marvel.data.Result
 import com.example.kolomachinetest.databinding.FragmentListBaseBinding
+import com.example.kolomachinetest.ui.adapter.PaginationAdapter
 import com.example.kolomachinetest.ui.adapter.PaginationCallback
+import com.example.kolomachinetest.ui.character.CharacterListAdapter
+import com.example.kolomachinetest.ui.comics.ComicsListAdapter
+import com.example.kolomachinetest.ui.filter.FilterAdapter
 import retrofit2.Call
 
 abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
@@ -24,11 +29,11 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
     private lateinit var mBaseViewModel: BaseViewModel
     private var _binding: FragmentListBaseBinding? = null
     private val binding get() = _binding!!
-    var mListType: Int = 0
+    private var mAdapter: PaginationAdapter<*, Result>? = null
+    private var mLists: ArrayList<Result> = arrayListOf<Result>()
 
     abstract fun getApi(pos: Int): Call<ApiResponse>
-    abstract fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean)
-    abstract fun onFailure(message: String?, pos: Int)
+    abstract fun getListType(): Int
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +57,8 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
             onLoadMore(0)
         }
         mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
+        mAdapter = getListAdapter()
+        mRecyclerView.adapter = mAdapter
         onLoadMore(0)
         mBaseViewModel.mApiResultLiveData.observe(viewLifecycleOwner, {
             mProgressBar.visibility = View.INVISIBLE
@@ -61,7 +68,7 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
         mBaseViewModel.mErrorLiveModel.observe(viewLifecycleOwner, {
             if (it.message != null) {
                 mProgressBar.visibility = View.INVISIBLE
-                onFailure(it.message, it.position)
+                onFailure()
                 if (it.errorType == ErrorType.TYPE_UNKNOWN) {
                     if (it.position == 0) {
                         mTextView.visibility = View.VISIBLE
@@ -77,9 +84,33 @@ abstract class ListBaseFragment : BaseFragment(), PaginationCallback {
         })
     }
 
+    private fun onSuccess(results: ArrayList<Result>, showLoadingScreen: Boolean) {
+        mAdapter?.setResult(results, showLoadingScreen)
+    }
+
+    private fun onFailure() {
+        mAdapter?.resetLastItem()
+    }
+
+    private fun getListAdapter(): PaginationAdapter<*, Result>? = when (getListType()) {
+        ListType.TYPE_CHARACTERS -> {
+            CharacterListAdapter(mLists, this)
+        }
+        ListType.TYPE_COMICS -> {
+            ComicsListAdapter(mLists, this)
+        }
+        ListType.TYPE_FILTER -> {
+            FilterAdapter(mLists, this, true)
+        }
+        ListType.TYPE_SEARCH -> {
+            FilterAdapter(mLists, this, false)
+        }
+        else -> null
+    }
+
     override fun onLoadMore(position: Int) {
         mTextView.visibility = View.INVISIBLE
-        mBaseViewModel.fetchData(getApi(position), position, mListType)
+        mBaseViewModel.fetchData(getApi(position), position, getListType())
     }
 
     override fun onDestroyView() {
