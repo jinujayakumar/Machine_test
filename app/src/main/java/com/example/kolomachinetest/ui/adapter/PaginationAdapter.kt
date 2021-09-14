@@ -9,7 +9,7 @@ import com.example.kolomachinetest.ui.adapter.PaginationAdapter.PaginationViewHo
 import java.util.*
 
 abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
-    private val mListModel: MutableList<M>,
+    private val mListModel: MutableList<M?>,
     private val mPaginationCallback: PaginationCallback
 ) : RecyclerView.Adapter<T>() {
 
@@ -21,7 +21,7 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
         private const val LOADING_ITEM = 0
     }
 
-    abstract fun onBindViewHolder(holder: T, pos: Int, model: M)
+    abstract fun onBindViewHolder(holder: T, pos: Int, model: M?)
 
     abstract fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): T
 
@@ -70,7 +70,7 @@ abstract class PaginationAdapter<T : PaginationViewHolder?, M>(
         mLastItemPost = 0
     }
 
-    fun setResult(results: ArrayList<M>, showLoadingScreen: Boolean) {
+    fun setResult(results: ArrayList<M?>, showLoadingScreen: Boolean) {
         mShowLoadingScreen = showLoadingScreen
         val size = results.size
         val oldSize = mListModel.size

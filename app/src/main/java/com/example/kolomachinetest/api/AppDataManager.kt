@@ -13,8 +13,8 @@ import retrofit2.Call
 object AppDataManager {
 
     private var mAppDatabase: AppDatabase? = null
-    var mComicsList = ArrayList<Result>()
-    var mCharacterList = ArrayList<Result>()
+    var mComicsList = ArrayList<Result?>()
+    var mCharacterList = ArrayList<Result?>()
 
     fun fetchCharacterList(index: Int): Call<ApiResponse> {
         return RetrofitManager.mService.fetchCharacterList("50", index.toString())
